@@ -4,7 +4,7 @@ import io.cucumber.java.After;
 import io.cucumber.java.AfterAll;
 import io.cucumber.java.Before;
 import io.cucumber.java.BeforeAll;
-import org.example.drivers.DriverFactory; // импортируем наш класс
+import org.example.drivers.DriverFactory;
 import org.openqa.selenium.WebDriver;
 
 import java.sql.Connection;
@@ -17,13 +17,13 @@ public class Hooks {
     protected static Connection connection;
     protected static Statement statement;
 
-    @Before
+    @BeforeAll
     public static void setUp() {
         try {
             driver = DriverFactory.getDriver();
 
             connection = DriverManager.getConnection(
-                    "jdbc:h2:tcp://localhost:9092/mem:testdb",
+                    "jdbc:h2:tcp://qualit.applineselenoid.fvds.ru/mem:testdb",
                     "user",
                     "pass");
 
@@ -37,7 +37,7 @@ public class Hooks {
         }
     }
 
-    @After
+    @AfterAll
     public static void tearDown() {
         if (driver != null) {
             driver.quit();
