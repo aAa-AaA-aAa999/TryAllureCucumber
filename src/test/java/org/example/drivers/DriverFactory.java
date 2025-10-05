@@ -17,6 +17,9 @@ public class DriverFactory {
     private static String baseAddress = "https://qualit.applineselenoid.fvds.ru/food";
     private static WebDriver driver;
     private static final TestPropManager props = TestPropManager.getInstance();
+    private static String[] forSetPropertyDriverBrowser = {"webdriver.edge.driver", "webdriver.gecko.driver"};
+    private static String[] forSearchPathToDriver = {"msedgedriver.exe", "geckodriver.exe", "msedgedriverlinux", "geckodriverlinux"};
+
 
     private static void initDriver() {
         String typeDriver = System.getProperty("type.driver", props.getProperty("type.driver"));
@@ -57,17 +60,38 @@ public class DriverFactory {
     }
 
     private static void initLocalDriver() {
+        String typeLocalOs = System.getProperty("type.localOs", props.getProperty("type.localOs"));
         String localBrowserName = System.getProperty("localbrowser.name", props.getProperty("localbrowser.name"));
-        System.out.println(localBrowserName);
+
+        if("windows".equalsIgnoreCase(typeLocalOs)){
+
+            if("edge".equalsIgnoreCase(localBrowserName)){
+                createDriver(forSetPropertyDriverBrowser[0], forSearchPathToDriver[0], localBrowserName);
+            }
+            else {
+                createDriver(forSetPropertyDriverBrowser[1], forSearchPathToDriver[1], localBrowserName);
+            }
+        }
+        else {
+            if("edge".equalsIgnoreCase(localBrowserName)){
+                createDriver(forSetPropertyDriverBrowser[0], forSearchPathToDriver[2], localBrowserName);
+            }
+            else {
+                createDriver(forSetPropertyDriverBrowser[1], forSearchPathToDriver[3], localBrowserName);
+            }
+        }
+    }
+
+    private static void createDriver(String forSetProp, String forDriverPath, String localBrowserName){
         if("edge".equalsIgnoreCase(localBrowserName)){
-            System.setProperty("webdriver.edge.driver",
-                    System.getProperty("user.dir") + "/src/test/resources/msedgedriver.exe");
+            System.setProperty(forSetProp,
+                    System.getProperty("user.dir") + "/src/test/resources/"+forDriverPath);
             driver = new EdgeDriver();
             driver.get(baseAddress);
         }
-        else {
-            System.setProperty("webdriver.gecko.driver",
-                    System.getProperty("user.dir") + "/src/test/resources/geckodriver.exe");
+        else{
+            System.setProperty(forSetProp,
+                    System.getProperty("user.dir") + "/src/test/resources/"+forDriverPath);
             driver = new FirefoxDriver();
             driver.get(baseAddress);
         }
