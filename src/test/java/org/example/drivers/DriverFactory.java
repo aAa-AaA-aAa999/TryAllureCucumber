@@ -19,7 +19,8 @@ public class DriverFactory {
     private static final TestPropManager props = TestPropManager.getInstance();
 
     private static void initDriver() {
-        if ("remote".equalsIgnoreCase(props.getProperty("type.driver"))) {
+        String typeDriver = System.getProperty("type.driver", props.getProperty("type.driver"));
+        if ("remote".equalsIgnoreCase(typeDriver)) {
             initRemoteDriver();
         } else {
             initLocalDriver();
@@ -30,6 +31,7 @@ public class DriverFactory {
         DesiredCapabilities capabilities = new DesiredCapabilities();
 
         Map<String, Object> selenoidOptions = new HashMap<>();
+
 
         String browserName = System.getProperty("browser.name", props.getProperty("browser.name"));
         String browserVersion = System.getProperty("browser.version", props.getProperty("browser.version"));
@@ -51,7 +53,8 @@ public class DriverFactory {
     }
 
     private static void initLocalDriver() {
-        if("edge".equalsIgnoreCase(props.getProperty("localbrowser.name"))){
+        String localBrowserName = System.getProperty("localbrowser.name", props.getProperty("localbrowser.name"));
+        if("edge".equalsIgnoreCase(localBrowserName)){
             System.setProperty("webdriver.edge.driver",
                     System.getProperty("user.dir") + "/src/test/resources/msedgedriver.exe");
             driver = new EdgeDriver();
@@ -72,4 +75,3 @@ public class DriverFactory {
         return driver;
     }
 }
-
