@@ -2,20 +2,19 @@ package org.example.drivers;
 
 import org.example.TestPropManager;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.edge.EdgeDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
 import java.net.MalformedURLException;
 import java.net.URI;
-import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
 public class DriverFactory {
 
-    private static String baseAddress = "http://localhost:8080/food";
+    private static String baseAddress = "https://qualit.applineselenoid.fvds.ru/food";
     private static WebDriver driver;
     private static final TestPropManager props = TestPropManager.getInstance();
 
@@ -31,25 +30,35 @@ public class DriverFactory {
         DesiredCapabilities capabilities = new DesiredCapabilities();
 
         Map<String, Object> selenoidOptions = new HashMap<>();
-        selenoidOptions.put("browserName", props.getProperty("browser.name"));
-        selenoidOptions.put("browserVersion", props.getProperty("browser.version"));
+        capabilities.setCapability("browserName", props.getProperty("browser.name"));
+        capabilities.setCapability("browserVersion", props.getProperty("browser.version"));
+
         selenoidOptions.put("enableVNC", true);
         selenoidOptions.put("enableVideo", false);
         capabilities.setCapability("selenoid:options", selenoidOptions);
         try {
-                driver = new RemoteWebDriver(
-                        URI.create(props.getProperty("selenoid.url")).toURL(),
-                        capabilities);
+            driver = new RemoteWebDriver(
+                    URI.create(props.getProperty("selenoid.url")).toURL(),
+                    capabilities);
+            driver.get(baseAddress);
         } catch (MalformedURLException e) {
             throw new RuntimeException(e);
         }
     }
 
     private static void initLocalDriver() {
-        System.setProperty("webdriver.edge.driver",
-                System.getProperty("user.dir") + "/src/test/resources/msedgedriver.exe");
-        driver = new EdgeDriver(); // присваиваем полю класса
-        driver.get(baseAddress);
+        if("edge".equalsIgnoreCase(props.getProperty("localbrowser.name"))){
+            System.setProperty("webdriver.edge.driver",
+                    System.getProperty("user.dir") + "/src/test/resources/msedgedriver.exe");
+            driver = new EdgeDriver();
+            driver.get(baseAddress);
+        }
+        else {
+            System.setProperty("webdriver.gecko.driver",
+                    System.getProperty("user.dir") + "/src/test/resources/geckodriver.exe");
+            driver = new FirefoxDriver();
+            driver.get(baseAddress);
+        }
     }
 
     public static WebDriver getDriver() {
