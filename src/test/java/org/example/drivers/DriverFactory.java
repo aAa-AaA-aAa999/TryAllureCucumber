@@ -39,6 +39,10 @@ public class DriverFactory {
         capabilities.setCapability("browserName", browserName);
         capabilities.setCapability("browserVersion", browserVersion);
 
+        /*
+        capabilities.setCapability("browserName", props.getProperty("browser.name"));
+        capabilities.setCapability("browserVersion", props.getProperty("browser.version"));
+*/
         selenoidOptions.put("enableVNC", true);
         selenoidOptions.put("enableVideo", false);
         capabilities.setCapability("selenoid:options", selenoidOptions);
@@ -54,6 +58,7 @@ public class DriverFactory {
 
     private static void initLocalDriver() {
         String localBrowserName = System.getProperty("localbrowser.name", props.getProperty("localbrowser.name"));
+        System.out.println(localBrowserName);
         if("edge".equalsIgnoreCase(localBrowserName)){
             System.setProperty("webdriver.edge.driver",
                     System.getProperty("user.dir") + "/src/test/resources/msedgedriver.exe");
