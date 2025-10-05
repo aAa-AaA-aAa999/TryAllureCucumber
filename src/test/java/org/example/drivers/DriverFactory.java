@@ -30,8 +30,12 @@ public class DriverFactory {
         DesiredCapabilities capabilities = new DesiredCapabilities();
 
         Map<String, Object> selenoidOptions = new HashMap<>();
-        capabilities.setCapability("browserName", props.getProperty("browser.name"));
-        capabilities.setCapability("browserVersion", props.getProperty("browser.version"));
+
+        String browserName = System.getProperty("browser.name", props.getProperty("browser.name"));
+        String browserVersion = System.getProperty("browser.version", props.getProperty("browser.version"));
+
+        capabilities.setCapability("browserName", browserName);
+        capabilities.setCapability("browserVersion", browserVersion);
 
         selenoidOptions.put("enableVNC", true);
         selenoidOptions.put("enableVideo", false);
@@ -68,3 +72,4 @@ public class DriverFactory {
         return driver;
     }
 }
+
