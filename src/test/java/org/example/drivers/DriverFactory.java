@@ -20,9 +20,12 @@ public class DriverFactory {
 
     private static void initDriver() {
         String typeDriver = System.getProperty("type.driver", props.getProperty("type.driver"));
+        System.out.printin("init driver");
         if ("remote".equalsIgnoreCase(typeDriver)) {
+            System.out.printin("init remote");
             initRemoteDriver();
         } else {
+            System.out.printin("init local");
             initLocalDriver();
         }
     }
@@ -34,11 +37,14 @@ public class DriverFactory {
 
 
         String browserName = System.getProperty("browser.name", props.getProperty("browser.name"));
+        System.out.printin(browserName);
         String browserVersion = System.getProperty("browser.version", props.getProperty("browser.version"));
+        System.out.printin(browserVersion);
 
         capabilities.setCapability("browserName", browserName);
         capabilities.setCapability("browserVersion", browserVersion);
 
+        System.out.printin("set version and browName");
         /*
         capabilities.setCapability("browserName", props.getProperty("browser.name"));
         capabilities.setCapability("browserVersion", props.getProperty("browser.version"));
@@ -47,10 +53,13 @@ public class DriverFactory {
         selenoidOptions.put("enableVideo", false);
         capabilities.setCapability("selenoid:options", selenoidOptions);
         try {
+            System.out.printin("try dr=RemoteWebDr");
             driver = new RemoteWebDriver(
                     URI.create(props.getProperty("selenoid.url")).toURL(),
                     capabilities);
+            System.out.printin("driv.get(basAdr)");
             driver.get(baseAddress);
+            System.out.printin("openAdr");
         } catch (MalformedURLException e) {
             throw new RuntimeException(e);
         }
@@ -80,3 +89,4 @@ public class DriverFactory {
         return driver;
     }
 }
+
