@@ -8,8 +8,10 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
+
 
 import static org.example.Hooks.driver;
 import static org.example.Hooks.statement;
@@ -33,6 +35,7 @@ public class CFeatureTestStep {
             "FROM INFORMATION_SCHEMA.TABLES\n" +
             "WHERE TABLE_SCHEMA = 'PUBLIC'\n" +
             "  AND TABLE_NAME = 'test_table';\n";
+
 
     @И("получение идентификатора последнего добавленного товара")
     @Description("Получает идентификатор последнего добавленного товара из таблицы FOOD")
