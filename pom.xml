@@ -11,6 +11,9 @@
   <url>http://maven.apache.org</url>
 
   <properties>
+      <java.version>24</java.version>
+      <maven.compiler.source>9</maven.compiler.source>
+      <maven.compiler.target>9</maven.compiler.target>
       <encoding.type>UTF-8</encoding.type>
       <project.build.sourceEncoding>${encoding.type}</project.build.sourceEncoding>
       <project.reporting.outputEncoding>${encoding.type}</project.reporting.outputEncoding>
@@ -123,3 +126,4 @@
         </plugins>
     </build>
 </project>
+
