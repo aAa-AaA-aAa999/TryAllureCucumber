@@ -20,6 +20,10 @@ public class Hooks {
     @BeforeAll
     public static void setUp() {
         try {
+
+            System.out.println("TAG FILTER = " + System.getProperty("cucumber.filter.tags"));
+            System.out.println("OPTIONS = " + System.getProperty("cucumber.options"));
+            
             driver = DriverFactory.getDriver();
 
             connection = DriverManager.getConnection(
@@ -56,4 +60,5 @@ public class Hooks {
         }
     }
 }
+
 
