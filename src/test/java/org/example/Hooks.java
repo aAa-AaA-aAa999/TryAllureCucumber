@@ -41,7 +41,7 @@ public class Hooks {
     public static void tearDown() {
         if (driver != null) {
             driver.quit();
-            System.out.println("🧹 WebDriver закрыт");
+            System.out.println("WebDriver закрыт");
         }
 
         if (connection != null) {
@@ -56,3 +56,4 @@ public class Hooks {
         }
     }
 }
+
